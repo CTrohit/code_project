@@ -1,4 +1,4 @@
-#Median Running of Stream
+#   Median Running of Stream
 #! user/bin/ruby
 class Median
   

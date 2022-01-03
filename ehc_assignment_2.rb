@@ -14,13 +14,15 @@ class EhcAssignment
     end
     return parse_array
   end
-  def crawl(url,date)
-    raise ArgumentError, 'too many HTTP redirects' if (url.nil? or date.nil?)
+  def crawl(date)
+    raise ArgumentError, 'too many HTTP redirects' if (date.nil?)
+    url = "https://services.ecourts.gov.in/ecourtindiaHC/cases/highcourt_causelist_qry.php"
     request = Net::HTTP.post_form(URI.parse(url),{"action_code" => "pulishedCauselist", "causelist_dt" => date,"state_code" => "1","dist_code" => "1","court_code" => "2"})
     case request
     when Net::HTTPSuccess then
       file=File.open("./result.html","w")
       file.write(request.body)
+      file.close()
       response=request.body.gsub(/\s+/," ").strip
       puts parse(response)  
     else
@@ -28,11 +30,11 @@ class EhcAssignment
     end
   end
 end
-uri = "https://services.ecourts.gov.in/ecourtindiaHC/cases/highcourt_causelist_qry.php"
+
 puts "Enter a Date:DD-MM-YYYY"
 date=gets.chomp
 main=EhcAssignment.new
-main.crawl(uri,date)
+main.crawl(date)
 
 
 

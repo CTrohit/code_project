@@ -1,7 +1,6 @@
 #! usre/bin/ruby
 require "net/http"
 require "uri"
-
 class EhcAssignment 
   def parse(response)
     response_array=response.split("^#")
@@ -9,7 +8,9 @@ class EhcAssignment
     for num in (0..response_array.length()-1)
         response_array_element = response_array[num].split("~") 
         parse_array[num]={'serial_number':num+1,
-'bench':response_array_element[1],'cause_list':response_array_element[2],'link':"https://services.ecourts.gov.in/ecourtindiaHC/cases/display_causelist.php?filename="+response_array_element[4]}
+                          'bench':response_array_element[1],
+                          'cause_list':response_array_element[2],
+                          'link':"https://services.ecourts.gov.in/ecourtindiaHC/cases/display_causelist.php?filename="+response_array_element[4]}
     end
     return parse_array
   end

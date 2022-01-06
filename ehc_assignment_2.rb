@@ -20,8 +20,6 @@ class EhcAssignment
         puts "Parsing Result:-"
         puts parse(response.gsub(/\s+/," ").strip)
       end
-    rescue StandardError =>e
-      puts e
     rescue Exception =>e
       puts e.massage
       puts e.backtrace.inspect

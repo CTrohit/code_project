@@ -3,8 +3,10 @@ require "net/http"
 require "uri"
 require 'logger'
 class EhcAssignment
-  log= Logger.new('./log_error','daily')
-  log.level = Logger::WARN
+  def error(e)
+    log= Logger.new('./log_error','daily') 
+    log.error("Error: #{e}")
+  end
   def crawl(date)
     begin
       reise TypeError 'Invail formate' if date == '%d-%m-%y'
@@ -18,12 +20,10 @@ class EhcAssignment
         puts "File Save Path:-#{File.expand_path('../result.html',__FILE__)}"
         response=request.body
         puts "Parsing Result:-"
-        puts parse(response.gsub(/\s+/," ").strip)
+        puts parse(response)
       end
     rescue Exception =>e
-      puts e.massage
-      puts e.backtrace.inspect
-      log.error(e)  
+      error(e)    
     end
   end
   def parse(response)
@@ -39,9 +39,7 @@ class EhcAssignment
                           'link':"https://services.ecourts.gov.in/ecourtindiaHC/cases/display_causelist.php?filename="+response_array_element[4]}
       end
     rescue Exception => e
-      puts e.massage
-      puts e.backtrace.inspect
-      log.error(e)
+      error(e) 
     end
     return parse_array
   end

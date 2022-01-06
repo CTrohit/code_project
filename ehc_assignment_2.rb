@@ -9,7 +9,7 @@ class EhcAssignment
   end
   def crawl(date)
     begin
-      reise TypeError 'Invail formate' if date == '%d-%m-%y'
+      reise ArgumentError, 'invalid Error' if date == '%d-%m-%y'
       url = "https://services.ecourts.gov.in/ecourtindiaHC/cases/highcourt_causelist_qry.php"
       request= Net::HTTP.post_form(URI(url),{"action_code" => "pulishedCauselist", "causelist_dt" => date,"state_code" => "1","dist_code" => "1","court_code" => "2"})
       case request
